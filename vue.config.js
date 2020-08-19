@@ -94,7 +94,7 @@ module.exports = {
     config
       .plugin('html')
       .tap(args => {
-        args[0].title="邮电规划项目"
+        args[0].title="标题"
         return args
       })
 
