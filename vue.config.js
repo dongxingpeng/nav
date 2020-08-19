@@ -43,7 +43,7 @@ module.exports = {
         cacheGroups: {
           vueLibs: {
             chunks: "all",
-            test: /node_modules\/(vuex|vue-router|vue-class-component)/,
+            test: /node_modules\/(vuex|vue-router)/,
             name: "vue_libs",
             minChunks: 1,
             maxInitialRequests: 15,
