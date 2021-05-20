@@ -2,8 +2,9 @@
  *
  * 说明：vue配置信息
  */
-const webpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;  
+const webpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const htmlWebpackTagsPlugin = require('html-webpack-tags-plugin')
+const tersetWebpackPlugin = require('terser-webpack-plugin')
 const path = require('path');
 
 function pathResolve(url) {
@@ -39,6 +40,18 @@ module.exports = {
       runtimeChunk: {
         name: 'manifest'
       },
+      minimize: true,
+      minimizer: [
+        new tersetWebpackPlugin({
+          terserOptions: {
+            compress: {
+              warnings: false,
+              drop_console: true,
+              pure_funcs: ['console.log']
+            }
+          }
+        })
+      ],
       splitChunks: {
         cacheGroups: {
           vueLibs: {
@@ -80,8 +93,11 @@ module.exports = {
         }
       }
     },
-    plugins:[
-      new htmlWebpackTagsPlugin({tags:['env.config.js'],append:true})
+    plugins: [
+      new htmlWebpackTagsPlugin({
+        tags: ['env.config.js'],
+        append: true
+      })
     ]
   },
   chainWebpack: (config) => {
@@ -94,14 +110,12 @@ module.exports = {
     config
       .plugin('html')
       .tap(args => {
-        args[0].title="标题"
+        args[0].title = "标题"
         return args
       })
-
-
   },
   // transpileDependencies: [],
-  devServer: {//服务器配置
+  devServer: { //服务器配置
     open: true, //自动打开浏览器
   }
 

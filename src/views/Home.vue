@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TableCommon
+    <table-common
       :data="tableList"
       :columns="columns"
       :total="tableList.length"
@@ -12,20 +12,24 @@
       @sizeChange="handleSizeChange"
     >
       <template slot-scope="scope">
-        <Button type="text" size="small" @click="handleBtnLClick(scope)">查看</Button>
+        <Button type="text" size="small" @click="handleBtnLClick(scope)"
+          >查看</Button
+        >
         <Button type="text" size="small">编辑</Button>
       </template>
 
       <template slot="name" slot-scope="scope">
-        <span>{{scope.row.name}}</span>
+        <span>{{ scope.row.name }}测</span>
       </template>
-    </TableCommon>
+    </table-common>
+    <form-common :form="form" :model="model"></form-common>
   </div>
 </template>
 
 <script>
 import { Button } from "element-ui";
 import TableCommon from "@/components/table-common";
+import FormCommon from "@/components/form-common";
 export default {
   name: "Home",
   data() {
@@ -33,17 +37,71 @@ export default {
       columns: [
         //表格每列
         { type: "selection", width: "50" },
-        { label: "日期", prop: "date" },
         { label: "姓名", prop: "name" },
         { label: "地址", prop: "address" },
       ],
       tableList: [], //表格数据
       currentPage: 1, //当前显示第几页
       direction: "", //分页显示方式：left(默认);center;right
+      model: {
+        text: "",
+        select: "",
+        checks: [],
+        radios: "",
+        date: "",
+      },
+      form: {
+        config: [
+          {
+            type: "text",
+            prop: "text",
+            label: "名称",
+          },
+          {
+            type: "select",
+            prop: "select",
+            label: "地址",
+            option: [
+              { label: "1-1", value: "测试1" },
+              { label: "2-1", value: "测试2" },
+            ],
+          },
+
+          {
+            type: "checkbox",
+            prop: "checks",
+            label: "复选框",
+            option: [
+              { label: "1-1", value: "测试1" },
+              { label: "2-1", value: "测试2" },
+            ],
+          },
+
+          {
+            type: "radio",
+            prop: "radios",
+            label: "单选框",
+            option: [
+              { label: "1-1", value: "测试1" },
+              { label: "2-1", value: "测试2" },
+            ],
+          },
+
+          {
+            type: "datetime",
+            prop: "date",
+            label: "时间",
+          },
+        ],
+        direction: "center",
+        inline: false,
+        size: "small",
+      },
     };
   },
   components: {
     TableCommon,
+    FormCommon,
     Button,
   },
   created() {
@@ -51,7 +109,7 @@ export default {
   },
   methods: {
     loadData() {
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 5; i++) {
         this.tableList.push({
           id: i,
           date: this.date,
